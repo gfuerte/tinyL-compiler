@@ -117,11 +117,33 @@ static int expr()
 		CodeGen(ADD, reg, left_reg, right_reg);
 		return reg;
 	case '-':
+		next_token();
+		left_reg = expr();
+		right_reg = expr();
+		reg = next_register();
+		CodeGen(SUB, reg, left_reg, right_reg);
+		return reg;
 	case '*':
-	case '*':
+		next_token();
+		left_reg = expr();
+		right_reg = expr();
+		reg = next_register();
+		CodeGen(MUL, reg, left_reg, right_reg);
+		return reg;
 	case '&':
+		next_token();
+		left_reg = expr();
+		right_reg = expr();
+		reg = next_register();
+		CodeGen(AND, reg, left_reg, right_reg);
+		return reg;
 	case '^':
-
+		next_token();
+		left_reg = expr();
+		right_reg = expr();
+		reg = next_register();
+		CodeGen(XOR, reg, left_reg, right_reg);
+		return reg;
 	case '0':
 	case '1':
 	case '2':
@@ -138,6 +160,7 @@ static int expr()
 	case 'c':
 	case 'd':
 	case 'e':
+		return variable();
 	default:
 		ERROR("Symbol %c unknown\n", token);
 		exit(EXIT_FAILURE);
