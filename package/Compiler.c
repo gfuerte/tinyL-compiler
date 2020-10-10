@@ -95,7 +95,7 @@ static int variable()
 	int reg;
 
 	if (!is_identifier(token)) {
-		ERROR("Expected digit\n");
+		ERROR("Expected variable\n");
 		exit(EXIT_FAILURE);
 	}
 	reg = next_register();
@@ -169,17 +169,48 @@ static int expr()
 
 static void assign()
 {
-	/* YOUR CODE GOES HERE */
+	int variable = variable();
+	next_token();
+	if(token == '=') {
+		next_token();
+		CodeGen(STORE, (token-'a')*4, 
+	} else {
+		ERROR("Symbol %c unknown\n", token);
+		exit(EXIT_FAILURE);
+	}	
+
 }
 
 static void read()
 {
-	/* YOUR CODE GOES HERE */
+	if(token == '!') {
+		next_token();
+		if (!is_identifier(token)) {
+			ERROR("Expected variable\n");
+			exit(EXIT_FAILURE);
+		}
+		CodeGen(READ, token, EMPTY_FIELD, EMPTY_FIELD);
+		next_token();
+	} else {
+		ERROR("Symbol %c unknown\n", token);
+		exit(EXIT_FAILURE);
+	}
 }
 
 static void print()
 {
-	/* YOUR CODE GOES HERE */
+	if(token == '#') {
+		next_token();
+		if (!is_identifier(token)) {
+			ERROR("Expected variable\n");
+			exit(EXIT_FAILURE);
+		}
+		CodeGen(WRITE, (token-'a')*4, EMPTY_FIELD, EMPTY_FIELD);
+		next_token();
+	} else {
+		ERROR("Symbol %c unknown\n", token);
+		exit(EXIT_FAILURE);
+	}
 }
 
 static void stmt()
@@ -200,7 +231,8 @@ static void stmtlist()
 static void program()
 {
 	/* YOUR CODE GOES HERE */
-	expr();
+	stmtlist();
+	next_token();
 	if (token != '.') {
 		ERROR("Program error.  Current input symbol is %c\n", token);
 		exit(EXIT_FAILURE);
