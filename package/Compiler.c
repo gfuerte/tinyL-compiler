@@ -169,16 +169,18 @@ static int expr()
 
 static void assign()
 {
-	int variable = variable();
+	int reg;
+	char variable = token;
 	next_token();
 	if(token == '=') {
 		next_token();
-		CodeGen(STORE, (token-'a')*4, 
+		reg = expr();
+		CodeGen(STORE, variable, reg, EMPTY_FIELD);
+
 	} else {
 		ERROR("Symbol %c unknown\n", token);
 		exit(EXIT_FAILURE);
 	}	
-
 }
 
 static void read()
@@ -205,7 +207,7 @@ static void print()
 			ERROR("Expected variable\n");
 			exit(EXIT_FAILURE);
 		}
-		CodeGen(WRITE, (token-'a')*4, EMPTY_FIELD, EMPTY_FIELD);
+		CodeGen(WRITE, token, EMPTY_FIELD, EMPTY_FIELD);
 		next_token();
 	} else {
 		ERROR("Symbol %c unknown\n", token);
@@ -215,28 +217,40 @@ static void print()
 
 static void stmt()
 {
-	/* YOUR CODE GOES HERE */
+	if(is_identifier(token)) {
+		assign();
+	} else if(token == '!') {
+		read();
+	} else if(token == '#') {
+		print();
+	} else {
+		ERROR("Symbol %c unknown\n", token);
+		exit(EXIT_FAILURE);
+	}
 }
 
 static void morestmts()
 {
-	/* YOUR CODE GOES HERE */
+	if(token == ';') {
+		next_token();
+		stmtlist();
+	}
 }
 
 static void stmtlist()
 {
-	/* YOUR CODE GOES HERE */
+	stmt();
+	morestmts();
 }
 
 static void program()
 {
-	/* YOUR CODE GOES HERE */
 	stmtlist();
 	next_token();
 	if (token != '.') {
 		ERROR("Program error.  Current input symbol is %c\n", token);
 		exit(EXIT_FAILURE);
-	};
+	};	
 }
 
 /*************************************************************************/
