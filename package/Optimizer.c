@@ -13,6 +13,7 @@ int main()
 		WARNING("No instructions\n");
 		exit(EXIT_FAILURE);
 	}
+	
 
 	if (head) {
 		PrintInstructionList(stdout, head);

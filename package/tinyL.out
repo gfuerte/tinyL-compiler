@@ -1,12 +1,13 @@
 READ a
-LOAD r1 a
-LOADI r2 #4
-MUL r3 r1 r2
-STORE b r3
-LOADI r4 #3
-LOAD r5 a
-LOADI r6 #2
-ADD r7 r5 r6
-MUL r8 r4 r7
-STORE a r8
-WRITE a
+READ b
+LOADI r1 #3
+LOAD r2 a
+LOAD r3 b
+MUL r4 r2 r3
+ADD r5 r1 r4
+STORE c r5
+LOAD r6 c
+LOADI r7 #1
+ADD r8 r6 r7
+STORE d r8
+WRITE d
