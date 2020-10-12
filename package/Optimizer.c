@@ -14,8 +14,6 @@ int main()
 		exit(EXIT_FAILURE);
 	}
 
-	printf("test");
-
 	if (head) {
 		PrintInstructionList(stdout, head);
 		DestroyInstructionList(head);

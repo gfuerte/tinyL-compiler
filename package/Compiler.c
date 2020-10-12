@@ -99,7 +99,7 @@ static int variable()
 		exit(EXIT_FAILURE);
 	}
 	reg = next_register();
-	CodeGen(LOADI, reg, (token-'a')*4, EMPTY_FIELD);
+	CodeGen(LOAD, reg, token, EMPTY_FIELD);
 	next_token();
 	return reg;
 }
@@ -246,7 +246,6 @@ static void stmtlist()
 static void program()
 {
 	stmtlist();
-	next_token();
 	if (token != '.') {
 		ERROR("Program error.  Current input symbol is %c\n", token);
 		exit(EXIT_FAILURE);
