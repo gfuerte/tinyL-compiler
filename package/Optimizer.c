@@ -6,7 +6,7 @@
 
 int main()
 {
-	Instruction *head;
+	Instruction *head, *tail, *cur;
 
 	head = ReadInstructionList(stdin);
 	if (!head) {
@@ -14,6 +14,19 @@ int main()
 		exit(EXIT_FAILURE);
 	}
 	
+	cur = head;
+	while(cur != NULL) {
+		if(cur->next == NULL) {
+			tail = cur;
+			tail->critical = 'c';
+		}
+		cur = cur->next;
+	}
+
+	cur = tail;
+	while(cur != NULL) {
+		cur = cur->prev;
+	}
 
 	if (head) {
 		PrintInstructionList(stdout, head);
@@ -21,4 +34,3 @@ int main()
 	}
 	return EXIT_SUCCESS;
 }
-
