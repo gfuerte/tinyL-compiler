@@ -22,23 +22,46 @@ int main()
 		cur = cur->next;
 	}
 
+	int registers[1024];
+	int variables[1024];
 	cur = tail;
 	while(cur != NULL) {
 		int op = cur->opcode;
 		switch(op) {
-			case 0:
-			case 1:
-			case 2:
-			case 3:
-			case 4:
-			case 5:
-			case 6:
-			case 7:
+			case 0: //LOAD
+				if(registers[cur->field1] == 1) {
+					variables[cur->field2] = 1;
+					cur->critical = 'c';
+				}
 				break;
-			case 8:
+			case 1:	//LOADI
+				if(registers[cur->field1] == 1) {
+					cur->critical = 'c';
+				}
+				break;
+			case 2: //STORE
+				if(variables[cur->field1] == 1) {
+					registers[cur->field2] = 1;
+					cur->critical = 'c';
+				}
+				break;
+			case 3: //ADD
+			case 4: //SUB
+			case 5: //MUL
+			case 6: //AND
+			case 7: //XOR
+				if(registers[cur->field1] == 1) {
+					registers[cur->field2] = 1;
+					registers[cur->field3] = 1;
+					cur->critical = 'c';
+				}
+				break;
+			case 8: //READ
 				cur->critical = 'c';
 				break;
-			case 9:
+			case 9: //WRITE
+				variables[cur->field1] = 1;
+				cur->critical = 'c';
 				break;
 			default:
 				WARNING("This is not suppose to happen\n");
@@ -47,6 +70,8 @@ int main()
 		}
 		cur = cur->prev;
 	}
+
+	
 	
 	Instruction *prev;
 	cur = head;
@@ -70,6 +95,7 @@ int main()
 			cur = cur->next;
 		}
 	}
+
 
 	if (head) {
 		PrintInstructionList(stdout, head);

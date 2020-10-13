@@ -1,1 +1,14 @@
 READ a
+LOADI r1 #3
+LOADI r2 #2
+ADD r3 r1 r2
+LOADI r4 #1
+LOADI r5 #1
+ADD r6 r4 r5
+ADD r7 r3 r6
+STORE b r7
+LOAD r8 a
+LOAD r9 b
+ADD r10 r8 r9
+STORE c r10
+WRITE c
