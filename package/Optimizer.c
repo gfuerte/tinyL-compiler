@@ -96,7 +96,6 @@ int main()
 		}
 	}
 
-
 	if (head) {
 		PrintInstructionList(stdout, head);
 		DestroyInstructionList(head);
